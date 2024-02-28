@@ -1,0 +1,13 @@
+{
+	"name": "main",
+	"version": "0.0.0",
+	"root": {
+		"children": [
+			{
+				"name": "dice",
+				"components": [
+				]
+			}
+		]
+	}
+}
