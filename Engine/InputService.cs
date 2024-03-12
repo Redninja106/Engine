@@ -12,8 +12,12 @@ public class InputService
         return App.Window.PressedKeys.Contains(key);
     }
 
-    public bool IsKeyPressed(Key key)
+    public bool IsKeyJustPressed(Key key)
     {
-        return App.Window.PressedKeys.Contains(key);
+        return !App.Window.LastPressedKeys.Contains(key) && App.Window.PressedKeys.Contains(key);
+    }
+    public bool IsKeyJustReleased(Key key)
+    {
+        return App.Window.LastPressedKeys.Contains(key) && !App.Window.PressedKeys.Contains(key);
     }
 }

@@ -22,7 +22,7 @@ public abstract class DebugWindow
 
     public void Update()
     {
-        if (App.Input.IsKeyDown(KeyBind))
+        if (App.Input.IsKeyJustReleased(KeyBind))
             open = !open;
 
         if (wantFocus)

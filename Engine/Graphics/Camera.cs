@@ -13,9 +13,9 @@ public class Camera : Component
     public IRenderTarget renderTarget;
     public float FieldOfView { get; set; } = 60f;
 
-    public Camera()
+    public Camera(RenderDriver renderDriver)
     {
-        RenderDriver = new BasicRenderDriver();
+        RenderDriver = renderDriver;
         renderTarget = App.Graphics.WindowRenderTarget;
     }
 
@@ -25,7 +25,7 @@ public class Camera : Component
 
     public Matrix4x4 CreateProjectionMatrix()
     {
-        return Matrix4x4.CreatePerspectiveFieldOfView(FieldOfView * (MathF.PI / 180f), renderTarget.Width / (float)renderTarget.Height, 0.01f, 100f);
+        return Matrix4x4.CreatePerspectiveFieldOfView(FieldOfView * (MathF.PI / 180f), renderTarget.Width / (float)renderTarget.Height, 0.01f, 1000f);
     }
 
     public Matrix4x4 CreateViewMatrix()

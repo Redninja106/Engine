@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 using Vortice.Direct3D11;
 
 namespace Engine.Graphics;
-public class ConstantBuffer<T> : TypedBuffer<T>
+public class ConstantBuffer<T> : Buffer<T>
     where T : unmanaged
 {
     private T value;
 
     public ref T Value => ref value;
 
-    public ConstantBuffer() : base(1, BindFlags.ConstantBuffer)
+    public ConstantBuffer() : base(1, BindFlags.ConstantBuffer, null)
     {
     }
 

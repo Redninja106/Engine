@@ -8,18 +8,15 @@ using System.Threading.Tasks;
 using Vortice.Direct3D11;
 
 namespace Engine.Graphics;
-public class ArrayBuffer<T> : TypedBuffer<T>
+public class StructuredBuffer<T> : Buffer<T>
     where T : unmanaged
 {
     private readonly T[] elements;
 
-    public int Length { get; }
-
     public ref T this[int index] => ref elements[index];
   
-    public ArrayBuffer(int length) : base(length, BindFlags.ShaderResource)
+    public StructuredBuffer(int length) : base(length, BindFlags.ShaderResource, Unsafe.SizeOf<T>())
     {
-        Length = length;
         elements = new T[length];
     }
 
@@ -27,5 +24,4 @@ public class ArrayBuffer<T> : TypedBuffer<T>
     {
         SetData(elements);
     }
-
 }

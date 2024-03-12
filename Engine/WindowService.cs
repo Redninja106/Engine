@@ -1,4 +1,5 @@
 ﻿using GLFW;
+using ImGuiNET;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,11 +20,28 @@ public class WindowService(int width, int height, string title) : IService
     public int Height => nativeWindow.Size.Height;
 
     public HashSet<Key> PressedKeys => nativeWindow.pressedKeys;
+    public HashSet<Key> LastPressedKeys => nativeWindow.lastPressedKeys;
+
+    public void NewFrame()
+    {
+        nativeWindow.NewFrame();
+    }
 
     private class EngineWindow(int width, int height, string title) : NativeWindow(width, height, title)
     {
         public new Window Window => base.Window;
-        public readonly HashSet<Key> pressedKeys = []; 
+        public HashSet<Key> pressedKeys = [];
+        public HashSet<Key> lastPressedKeys = [];
+
+        public void NewFrame()
+        {
+            var oldLastPressedKeys = lastPressedKeys;
+            lastPressedKeys = pressedKeys;
+
+            oldLastPressedKeys = [.. lastPressedKeys];
+            pressedKeys = oldLastPressedKeys;
+
+        }
 
         protected override void OnFramebufferSizeChanged(int width, int height)
         {

@@ -42,10 +42,10 @@ public static class App
             while (!Window.ShouldClose)
             {
                 DateTime frameTime = DateTime.UtcNow;
+
+                Window.NewFrame();
                 Glfw.PollEvents();
-
                 ImGuiHandler.BeginFrame();
-
                 Debug.UpdateWindows();
 
                 TimeSpan deltaTime = frameTime - lastFrameTime;

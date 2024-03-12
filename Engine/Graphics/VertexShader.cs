@@ -41,7 +41,6 @@ public class VertexShader : Shader
         var inputElements = reflection.InputParameters.Select(ShaderParameterToInputElement).ToArray();
 
         InputLayout = App.Graphics.Device.CreateInputLayout(inputElements, bytecode.Span);
-
     }
 
     private InputElementDescription ShaderParameterToInputElement(ShaderParameterDescription shaderParameter)

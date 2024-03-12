@@ -41,13 +41,18 @@ public class Scene
 
     public Actor AddActor(ReadOnlySpan<Component> components)
     {
+        return AddActor(null, components);
+    }
+
+    public Actor AddActor(string? name, ReadOnlySpan<Component> components)
+    {
         foreach (var component in components)
         {
             if (component is Camera camera)
                 cameras.Add(camera);
         }
 
-        Actor actor = new(components);
+        Actor actor = new(name, components);
         actorsToAdd.Enqueue(actor);
         return actor;
     }

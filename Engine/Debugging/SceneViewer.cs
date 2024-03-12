@@ -20,12 +20,28 @@ public class SceneViewer : DebugWindow
             return;
         }
 
+        if (ImGui.Button("Add Actor"))
+        {
+            App.Scenes.Current!.AddActor([]);
+        }
+
+        ImGui.Separator();
+
         foreach (var actor in scene.Actors)
         {
-            if (ImGui.TreeNode(actor.ToString()))
+            ImGui.PushID((int)actor.ID);
+            bool tree = ImGui.TreeNode(actor.ToString());
+            ImGui.SameLine();
+            if (ImGui.SmallButton("select"))
+            {
+                App.Debug.Inspector.Inspect(actor);
+            }
+
+            if (tree)
             {
                 ImGui.TreePop();
             }
+            ImGui.PopID();
         }
     }
 }

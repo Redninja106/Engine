@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 using Vortice.Direct3D11;
 
 namespace Engine.Graphics;
-internal class BasicRenderDriver : RenderDriver
+public sealed class BasicRenderDriver : RenderDriver
 {
     ID3D11RasterizerState rsState;
     ID3D11DepthStencilState dsState;
 
-    ArrayBuffer<PointLightData> lightBuffer;
+    StructuredBuffer<PointLightData> lightBuffer;
     public MatrixBuffer matrixBuffer;
 
     public BasicRenderDriver()
@@ -45,7 +45,6 @@ internal class BasicRenderDriver : RenderDriver
         immediateContext.OMSetDepthStencilState(dsState);
         immediateContext.RSSetViewport(0, 0, camera.renderTarget.Width, camera.renderTarget.Height);
         immediateContext.OMSetRenderTargets(camera.renderTarget.RenderTargetView, camera.renderTarget.DepthStencilView);
-        
 
         matrixBuffer.SetViewProj(camera);
 
@@ -54,6 +53,7 @@ internal class BasicRenderDriver : RenderDriver
             Camera = camera,
             matrixBuffer = this.matrixBuffer,
             pointLights = this.lightBuffer,
+            DeviceContext = immediateContext,
         };
 
         scene.Draw(renderContext);
@@ -70,7 +70,7 @@ public class RenderContext
 {
     public Camera Camera;
     public MatrixBuffer matrixBuffer;
-    public ArrayBuffer<PointLightData> pointLights;
+    public StructuredBuffer<PointLightData> pointLights;
     public ID3D11DeviceContext DeviceContext;
 
 }

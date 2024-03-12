@@ -21,13 +21,17 @@ public class Material : IInspectable
     public PixelShader PixelShader { get; private set; }
     public ShaderParameters PixelShaderParameters { get; private set; }
 
+    public ConstantBufferSlot<MatrixBufferData> MatrixBuffer { get; }
+
     public Material(VertexShader vertexShader, PixelShader pixelShader)
     {
         VertexShader = vertexShader;
         PixelShader = pixelShader;
-
+        
         VertexShaderParameters = new();
         PixelShaderParameters = new();
+
+        MatrixBuffer = new(VertexShaderParameters, 13);
     }
 
     public void Layout()

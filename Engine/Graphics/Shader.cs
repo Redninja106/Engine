@@ -123,33 +123,6 @@ public abstract class Shader : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    public ShaderParameter[] CreateParameters()
-    {
-        using ID3D11ShaderReflection reflection = Compiler.Reflect<ID3D11ShaderReflection>(ByteCode.Span);
-
-        List<ShaderParameter> parameters = [];
-
-        foreach (var rsrc in reflection.BoundResources)
-        {
-            switch (rsrc.Type)
-            {
-                case ShaderInputType.ConstantBuffer:
-                    // parameters.Add(new ConstantBufferShaderParameter());
-                    break;
-                case ShaderInputType.Texture:
-                    parameters.Add(new TextureShaderParameter(rsrc.BindPoint));
-                    break;
-                case ShaderInputType.Sampler:
-                    // samplers are not first-class parameters
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
-        return [..parameters];
-    }
-
     ~Shader()
     {
         Dispose();

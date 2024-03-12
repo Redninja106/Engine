@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Vortice.Direct3D11;
 
 namespace Engine.Graphics;
-public class Texture
+public class Texture : IShaderResource
 {
     public static Texture White1x1 { get; }
 

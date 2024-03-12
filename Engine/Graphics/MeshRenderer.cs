@@ -13,8 +13,8 @@ using Vortice.DXGI;
 namespace Engine.Graphics;
 public class MeshRenderer : DrawableComponent
 {
-    Mesh mesh;
-    Material material;
+    public Mesh mesh;
+    public Material material;
 
     public MeshRenderer(Mesh mesh, Material material)
     {
@@ -28,6 +28,7 @@ public class MeshRenderer : DrawableComponent
 
         context.matrixBuffer.SetWorld(Transform);
         context.matrixBuffer.Upload();
+        material.MatrixBuffer.Set(context.matrixBuffer);
 
         material.Bind(context);
 

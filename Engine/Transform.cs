@@ -291,4 +291,25 @@ public class Transform : Component
             this.WorldRotation = Angle.Step(this.WorldRotation, Angle.FromVector(point - this.WorldPosition), radians);
         }*/
     }
+
+    public override void Layout()
+    {
+        base.Layout();
+
+        ImGui.Text("Position");
+        ImGui.SameLine();
+        ImGui.DragFloat3("##position slider", ref this.Position);
+
+        ImGui.Text("Rotation");
+        ImGui.SameLine();
+        Vector3 euler = Rotation.ToEuler();
+        if (ImGui.DragFloat3("##rotation slider", ref euler)) 
+        {
+            Rotation = Quaternion.CreateFromYawPitchRoll(euler.Y, euler.X, euler.Z);
+        }
+
+        ImGui.Text("Scale");
+        ImGui.SameLine();
+        ImGui.DragFloat3("##scale slider", ref this.Scale);
+    }
 }

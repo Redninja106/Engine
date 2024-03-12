@@ -1,29 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Vortice.Direct3D11;
 
 namespace Engine.Graphics;
-public class Buffer : IDisposable
+public class Buffer<T> : RawBuffer
+    where T : unmanaged
 {
-    public ID3D11Buffer InternalBuffer { get; }
-    public int SizeInBytes { get; }
+    public int Length { get; }
 
-    public Buffer(int sizeInBytes, BindFlags bindFlags)
+    public Buffer(int size, BindFlags bindFlags, int? structuredBufferByteStride = null) : base(size * Unsafe.SizeOf<T>(), bindFlags, structuredBufferByteStride)
     {
-        SizeInBytes = sizeInBytes;
-        InternalBuffer = App.Graphics.Device.CreateBuffer(sizeInBytes, bindFlags);
+        Length = size;
     }
 
-    public void SetData(ReadOnlySpan<byte> bytes)
+    public void SetData(ReadOnlySpan<T> data)
     {
-        App.Graphics.ImmediateContext.UpdateSubresource(bytes, InternalBuffer);
+        var bytes = MemoryMarshal.AsBytes(data);
+        SetData(bytes);
     }
 
-    public void Dispose()
+    public static Buffer<T> CreateStructured(int length)
     {
-        InternalBuffer.Dispose();
+        return new(length, BindFlags.ShaderResource, Unsafe.SizeOf<T>());
     }
 }
